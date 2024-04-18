@@ -17,6 +17,40 @@
         "open": true
       }
     },
+    "cli":{
+      "description": "You may run this command to connect to the server",
+      "longDescription": "",
+      "args": [
+        {
+          "name": "host",
+          "short": "h",
+          "description": "The host to connect to",
+          "takesValue": true
+        },
+        {
+          "name": "port",
+          "short": "p",
+          "description": "The port to connect to",
+          "takesValue": true
+        },
+        {
+          "name": "user",
+          "short": "u",
+          "description": "The user to connect with",
+          "takesValue": true
+        },
+        {
+          "name": "password",
+          "short": "P",
+          "description": "The password to connect with",
+          "takesValue": true
+        }, {
+          "name": "verbose",
+          "short": "v",
+          "description": "Prints more information"
+        }
+      ]
+    },
     "windows": [
       {
         "title": "blackcat",
