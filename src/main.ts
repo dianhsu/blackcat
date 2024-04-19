@@ -2,12 +2,12 @@ import { createApp } from "vue";
 import 'element-plus/dist/index.css'
 import "./styles.css";
 import App from "./App.vue";
-import HomeIndex from './components/headers/HomeIndex.vue'
-import AboutIndex from './components/headers/AboutIndex.vue'
-import ProcessIndex from './components/headers/ProcessIndex.vue'
-import FileIndex from './components/headers/FileIndex.vue'
+import HomeIndex from './components/home/HomeIndex.vue'
+import AboutIndex from './components/about/AboutIndex.vue'
+import ProcessIndex from './components/process/ProcessIndex.vue'
+import FileIndex from './components/file/FileIndex.vue'
 import ScriptIndex from './components/script/ScriptIndex.vue'
-import TerminalIndex from './components/headers/TerminalIndex.vue'
+import TerminalIndex from './components/terminal/TerminalIndex.vue'
 import UtilityIndex from './components/utility/UtilityIndex.vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 const routes = [

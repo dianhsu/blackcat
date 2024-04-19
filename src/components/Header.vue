@@ -16,14 +16,8 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
-import { useRouter } from 'vue-router';
 import { ref } from 'vue';
-const router = useRouter();
 const activeName = ref("/");
-onMounted(() => {
-  router.push('/');
-});
 </script>
 
 <style>
