@@ -32,7 +32,6 @@ declare module 'vue' {
     ProcessIndex: typeof import('./src/components/process/ProcessIndex.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    ScriptBlock: typeof import('./src/components/script/ScriptBlock.vue')['default']
     ScriptIndex: typeof import('./src/components/script/ScriptIndex.vue')['default']
     ScriptsContainer: typeof import('./src/components/script/ScriptsContainer.vue')['default']
     TerminalIndex: typeof import('./src/components/terminal/TerminalIndex.vue')['default']
