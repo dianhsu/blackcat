@@ -36,10 +36,11 @@ const remove = (node: Node, data: Tree) => {
 }
 
 const renderContent = (
-  h,
+  h: any,
   {
     node,
     data,
+    // @ts-ignore
     store,
   }: {
     node: Node
