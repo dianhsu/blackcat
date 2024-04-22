@@ -60,10 +60,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { invoke } from '@tauri-apps/api';
+import { onMounted, ref } from 'vue'
 
 const direction = ref('horizontal')
 const fillRatio = ref(30)
+async function getOsType() {
+    return await invoke("get_os_type");
+}
+onMounted(() => {
+  console.log('mounted')
+  getOsType().then((osType) => {
+    console.log(osType)
+  })
+})
 </script>
 
 <style scoped>

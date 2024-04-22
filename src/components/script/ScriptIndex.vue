@@ -1,6 +1,10 @@
 <template>
   <el-tabs v-model="editableTabsValue" type="card" class="demo-tabs" editable @edit="handleTabsEdit">
     <el-tab-pane v-for="item in editableTabs" :key="item.name" :label="item.title" :name="item.name">
+      <div>
+        <el-input v-model="item.title" />
+      </div>
+      <el-divider />
       <ScriptsContainer />
     </el-tab-pane>
   </el-tabs>

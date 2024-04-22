@@ -1,6 +1,8 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+use std::env;
+
 use config::{update_config, CONFIG};
 use tracing::debug;
 
@@ -12,12 +14,32 @@ fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
 
+
+#[tauri::command]
+fn get_os_type() -> String {
+  return env::consts::OS.to_string();
+}
+
+pub struct Snippet {
+  pub remote: bool,
+  pub shell: String,
+  pub code: String
+}
+pub struct Script{
+  pub steps: Vec<Snippet>
+}
+
+#[tauri::command]
+async fn execute_script(script: Script) -> Result<(), String> {
+  Ok(())
+}
+
 #[tokio::main]
 async fn main() {
     tracing_subscriber::fmt::init();
 
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![greet, get_os_type])
         .setup(|app| {
             match app.get_cli_matches() {
                 Ok(matches) => {
