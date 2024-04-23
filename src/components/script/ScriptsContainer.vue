@@ -29,7 +29,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
+import {invoke} from '@tauri-apps/api/tauri';
 
 interface Snippet {
   name: string
@@ -37,7 +38,6 @@ interface Snippet {
   remote: boolean
   shell: string
   script: string
-  content: string
 }
 const activeNames = ref<string[]>([])
 const snippets = ref<Snippet[]>([])
@@ -52,13 +52,10 @@ const addScriptBlock = () => {
     title: `Snippet ${snippets.value.length + 1}`,
     shell: '',
     remote: true,
-    script: '',
-    content: 'echo "Hello, World!"'
+    script: ''
   })
 }
-const executeScript = () => {
-  console.log(snippets.value)
-  console.log('Execute script')
+async function executeScript() {
+  console.log(await invoke('execute_script', {snippets: snippets.value}));
 }
-
 </script>
