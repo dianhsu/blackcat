@@ -33,35 +33,35 @@
   </el-table>
   <el-affix style="position: fixed; bottom: 10px; right: 10px;z-index: 100">
     <el-row>
-      <el-link :underline="false">
+      <el-link :underline="false" @click="onAffixClick('refresh')">
         <el-icon :size="30">
           <Refresh />
         </el-icon>
       </el-link>
     </el-row>
     <el-row>
-      <el-link :underline="false">
+      <el-link :underline="false" @click="onAffixClick('download')">
         <el-icon :size="30">
           <Download />
         </el-icon>
       </el-link>
     </el-row>
     <el-row>
-      <el-link :underline="false">
+      <el-link :underline="false" @click="onAffixClick('upload')">
         <el-icon :size="30">
           <Upload />
         </el-icon>
       </el-link>
     </el-row>
     <el-row>
-      <el-link :underline="false">
+      <el-link :underline="false" @click="onAffixClick('edit')">
         <el-icon :size="30">
           <Edit />
         </el-icon>
       </el-link>
     </el-row>
     <el-row>
-      <el-link :underline="false">
+      <el-link :underline="false" @click="onAffixClick('delete')">
         <el-icon :size="30">
           <Delete />
         </el-icon>
@@ -82,8 +82,10 @@ interface File {
 const directories = ref<String[]>([])
 const current_files = ref<File[]>([])
 const size_units = ref(["bytes", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"]);
+const onAffixClick = (action: string) => {
+  console.log(action)
+};
 const getDirectories = async () => {
-
   current_files.value = [];
   await invoke('list_folder', { directory: "/" + directories.value.join("/") }).then((res: any) => {
     for (let i = 0; i < res.length; i++) {
