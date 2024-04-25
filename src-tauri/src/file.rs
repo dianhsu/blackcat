@@ -1,9 +1,6 @@
-use std::{
-    fs::{self},
-    path,
-};
-
 use serde::{Deserialize, Serialize};
+use std::path;
+use tokio::fs;
 #[derive(Serialize, Deserialize)]
 pub struct File {
     pub name: String,
@@ -13,7 +10,7 @@ pub struct File {
 }
 
 #[tauri::command]
-pub fn list_folder(directory: String) -> Result<Vec<File>, String> {
+pub async fn list_folder(directory: String) -> Result<Vec<File>, String> {
     let path = path::Path::new(&directory);
     if !path.exists() {
         return Err("Path does not exist".to_string());
@@ -21,21 +18,24 @@ pub fn list_folder(directory: String) -> Result<Vec<File>, String> {
     if !path.is_dir() {
         return Err("Path is not a directory".to_string());
     }
-    let mut files = vec![];
-    match fs::read_dir(path) {
-        Ok(entries) => {
-            for entry in entries {
-                files.push(File {
-                    name: entry.as_ref().unwrap().file_name().into_string().unwrap(),
-                    path: entry.as_ref().unwrap().path().display().to_string(),
-                    size: entry.as_ref().unwrap().metadata().unwrap().len(),
-                    is_dir: entry.as_ref().unwrap().metadata().unwrap().is_dir(),
-                });
-            }
-            return Ok(files);
+    let mut files: Vec<File> = vec![];
+
+    match fs::read_dir(path).await {
+        Ok(mut entries) => {
+          while let Ok(Some(entry)) = entries.next_entry().await {
+            let metadata = entry.metadata().await.unwrap();
+            let file = File {
+                name: entry.file_name().to_string_lossy().to_string(),
+                path: entry.path().to_string_lossy().to_string(),
+                size: metadata.len(),
+                is_dir: metadata.is_dir(),
+            };
+            files.push(file);
+          }
+        },
+        Err(_) => {
+            return Err("Error reading directory".to_string());
         }
-        Err(info) => {
-            return Err(format!("Error reading directory: {:?}", info));
-        }
-    }
+    };
+    return Ok(files);   
 }

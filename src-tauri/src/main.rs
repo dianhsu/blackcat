@@ -4,11 +4,16 @@
 use std::env;
 
 use config::{update_config, CONFIG};
-use tracing::debug;
 use file::list_folder;
-
-mod file;
+use info::get_os_type;
+use process::list_process;
+use script::execute_script;
+use tracing::debug;
 mod config;
+mod file;
+mod info;
+mod process;
+mod script;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
@@ -16,34 +21,18 @@ fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
 
-
-#[tauri::command]
-fn get_os_type() -> String {
-  return env::consts::OS.to_string();
-}
-
-
-#[derive(Debug, serde::Deserialize, serde::Serialize)]
-pub struct Snippet {
-  pub name: String,
-  pub title: String,
-  pub remote: bool,
-  pub shell: String,
-  pub script: String
-}
-
-#[tauri::command]
-async fn execute_script(snippets: Vec<Snippet>) -> Result<String, String> {
-  println!("Executing script, snippets: {:?}", snippets);
-  return Ok("Success".to_string());
-}
-
 #[tokio::main]
 async fn main() {
     tracing_subscriber::fmt::init();
 
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet, get_os_type, execute_script, list_folder])
+        .invoke_handler(tauri::generate_handler![
+            greet,
+            get_os_type,
+            execute_script,
+            list_folder,
+            list_process
+        ])
         .setup(|app| {
             match app.get_cli_matches() {
                 Ok(matches) => {
